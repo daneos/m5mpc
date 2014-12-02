@@ -15,6 +15,8 @@
 #include <mpd/search.h>
 #include <mpd/tag.h>
 
+#include "Exception.h"
+
 #define TIMEOUT 30000
 
 class MPDClient
@@ -22,6 +24,7 @@ class MPDClient
 protected:
 	struct mpd_connection *c;
 	const unsigned int *version;
+	struct mpd_status *status;
 
 public:
 	MPDClient(const char *address, const int port);

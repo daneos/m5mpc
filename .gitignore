@@ -30,5 +30,8 @@
 # Sublime Project
 sublime-project/*
 
+# Core dumps :)
+core
+
 # Project executable
 m5mpc

@@ -11,12 +11,33 @@
 
 #include "include/version.h"
 #include "include/MPDClient.h"
+#include "include/Exception.h"
 
 //-----------------------------------------------------------------------------
 void welcome(MPDClient *mpd);
+int run(void);
 
 //-----------------------------------------------------------------------------
 int main(void)
+{
+	try
+	{
+		return run();
+	}
+	catch(Exception& e)
+	{
+		printf("%s\n", e.toString());
+		return -1;
+	}
+	catch(...)
+	{
+		printf("Something weird happened, terminating...\n");
+		return -1;
+	}
+}
+
+//-----------------------------------------------------------------------------
+int run(void)
 {
 	MPDClient *mpd = new MPDClient("10.96.0.1", 6600);
 	welcome(mpd);
