@@ -10,7 +10,8 @@
 enum {
 	E_TEST,
 	E_CONNECTION_FAILED,
-	E_STATUS_FAILED
+	E_STATUS_FAILED,
+	E_STATUS_INCORRECT
 };
 
 static char *strings[] = {

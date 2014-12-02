@@ -24,9 +24,19 @@ class MPDClient
 protected:
 	struct mpd_connection *c;
 	const unsigned int *version;
-	struct mpd_status *status;
 
 public:
+	int Volume;
+	int Repeat;
+	int Songs;
+	int SongNo;
+	int Time;
+	int TotalTime;
+	int Bitrate;
+	int SampleRate;
+	int Bits;
+	int Channels;
+	int State;
 	MPDClient(const char *address, const int port);
 	~MPDClient();
 	void Update(void);

@@ -22,15 +22,38 @@ MPDClient::MPDClient(const char *address, const int port)
 //-----------------------------------------------------------------------------
 MPDClient::~MPDClient()
 {
-	mpd_status_free(this->status);
 	mpd_connection_free(this->c);
 }
 
 //-----------------------------------------------------------------------------
 void MPDClient::Update(void)
 {
-	if((this->status = mpd_recv_status(this->c)) == NULL)
+	struct mpd_status *status;
+	const struct mpd_audio_format *format;
+
+	if((status = mpd_recv_status(this->c)) == NULL)
 		throw Exception(E_STATUS_FAILED);
+	this->Volume = mpd_status_get_volume(status);
+	this->Repeat = mpd_status_get_repeat(status);
+	this->Songs = mpd_status_get_queue_length(status);
+	this->State = mpd_status_get_state(status);
+	if(mpd_status_get_error(status) != NULL)
+		throw Exception(E_STATUS_INCORRECT);
+	if(this->State == MPD_STATE_PLAY || this->State == MPD_STATE_PAUSE)
+	{
+		this->SongNo = mpd_status_get_song_pos(status);
+		this->Time = mpd_status_get_elapsed_time(status);
+		this->TotalTime = mpd_status_get_total_time(status);
+		this->Bitrate =  mpd_status_get_kbit_rate(status);
+	}
+	if((format = mpd_status_get_audio_format(status)) != NULL)
+	{
+		this->SampleRate = format->sample_rate;
+		this->Bits = format->bits;
+		this->Channels = format->channels;
+	}
+
+	mpd_status_free(status);
 }
 
 //-----------------------------------------------------------------------------
