@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# Sublime Project
+sublime-project/*
+
+# Project executable
+m5mpc
