@@ -17,6 +17,7 @@
 int run(void);
 void welcome(MPDClient *mpd);
 void print_info(MPDClient *mpd);
+void handle_input(MPDClient *mpd);
 
 //-----------------------------------------------------------------------------
 int main(void)
@@ -45,8 +46,8 @@ int run(void)
 	bool quit = false;
 	while(!quit)
 	{
-		sleep(1);
 		if(mpd->Update()) print_info(mpd);
+		handle_input(mpd);
 	}	
 	delete mpd;
 	return 0;
@@ -79,4 +80,30 @@ void print_info(MPDClient *mpd)
 	printf(" - %d/%d   Vol: %d%%\n", mpd->SongNo, mpd->Songs, mpd->Volume);
 	printf("%0.2d:%0.2d/%0.2d:%0.2d  @  %dkb/s\n", mpd->Time/60, mpd->Time%60, mpd->TotalTime/60, mpd->TotalTime%60, mpd->Bitrate);
 	printf("%dHz   %dbit   %dch\n", mpd->SampleRate, mpd->Bits, mpd->Channels);
+}
+
+//-----------------------------------------------------------------------------
+void handle_input(MPDClient *mpd)
+{
+	switch(getchar())
+	{
+		case 'p':
+			mpd->TogglePlay();
+			break;
+		case 's':
+			mpd->Stop();
+			break;
+		case 'u':
+			mpd->UpdateDB(false, NULL);
+			break;
+		case 'e':
+			mpd->Play();
+			break;
+		case 'w':
+			mpd->Pause();
+			break;
+		default:
+			break;
+	}
+	getchar();
 }

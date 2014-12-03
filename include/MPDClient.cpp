@@ -137,3 +137,33 @@ void MPDClient::ErrorRecover(void)
 {
 	if(!mpd_connection_clear_error(this->c)) throw Exception(E_UNRECOVERABLE);
 }
+
+//-----------------------------------------------------------------------------
+bool MPDClient::Play(void)
+{
+	return mpd_run_play(this->c);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::Pause(void)
+{
+	return mpd_run_pause(this->c, true);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::Stop(void)
+{
+	return mpd_run_stop(this->c);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::TogglePlay(void)
+{
+	return mpd_send_toggle_pause(this->c);
+}
+
+//-----------------------------------------------------------------------------
+int MPDClient::UpdateDB(bool rescan, const char *path)
+{
+	return rescan ? mpd_run_rescan(this->c, path) : mpd_run_update(this->c, path);
+}

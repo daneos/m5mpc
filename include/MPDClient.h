@@ -48,6 +48,11 @@ public:
 	bool Update(void);
 	char *getVersion(void);
 	void ErrorRecover(void);
+	bool Play(void);
+	bool Pause(void);
+	bool Stop(void);
+	bool TogglePlay(void);
+	int UpdateDB(bool rescan, const char *path);
 };
 
 #endif /* __MPDCLIENT_H__ */
