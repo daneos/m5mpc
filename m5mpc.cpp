@@ -77,7 +77,7 @@ void print_info(MPDClient *mpd)
 		default:
 			printf("Stopped");
 	}
-	printf(" - %d/%d   Vol: %d%%\n", mpd->SongNo, mpd->Songs, mpd->Volume);
+	printf(" - %d/%d   Vol: %d%%\n", mpd->SongIndex+1, mpd->Songs, mpd->Volume);
 	printf("%0.2d:%0.2d/%0.2d:%0.2d  @  %dkb/s\n", mpd->Time/60, mpd->Time%60, mpd->TotalTime/60, mpd->TotalTime%60, mpd->Bitrate);
 	printf("%dHz   %dbit   %dch\n", mpd->SampleRate, mpd->Bits, mpd->Channels);
 }
@@ -101,6 +101,18 @@ void handle_input(MPDClient *mpd)
 			break;
 		case 'w':
 			mpd->Pause();
+			break;
+		case '+':
+			mpd->setVolume(mpd->Volume + 1);
+			break;
+		case '-':
+			mpd->setVolume(mpd->Volume - 1);
+			break;
+		case '>':
+			mpd->Next();
+			break;
+		case '<':
+			mpd->Previous();
 			break;
 		default:
 			break;

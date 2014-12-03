@@ -55,7 +55,7 @@ bool MPDClient::Update(void)
 	}
 	if(this->State == MPD_STATE_PLAY || this->State == MPD_STATE_PAUSE)
 	{
-		this->SongNo = mpd_status_get_song_pos(status);
+		this->SongIndex = mpd_status_get_song_pos(status);
 		this->Time = mpd_status_get_elapsed_time(status);
 		this->TotalTime = mpd_status_get_total_time(status);
 		this->Bitrate =  mpd_status_get_kbit_rate(status);
@@ -105,7 +105,7 @@ bool MPDClient::Update(void)
 	}
 	else
 	{
-		this->SongNo = 0;
+		this->SongIndex = 0;
 		this->Time = 0;
 		this->TotalTime = 0;
 		this->Bitrate = 0;
@@ -166,4 +166,23 @@ bool MPDClient::TogglePlay(void)
 int MPDClient::UpdateDB(bool rescan, const char *path)
 {
 	return rescan ? mpd_run_rescan(this->c, path) : mpd_run_update(this->c, path);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setVolume(int vol)
+{
+	if(vol < 0 || vol > 100) return false;
+	return mpd_run_set_volume(this->c, vol);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::Next(void)
+{
+	return mpd_run_next(this->c);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::Previous(void)
+{
+	return mpd_run_previous(this->c);
 }

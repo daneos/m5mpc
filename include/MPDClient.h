@@ -32,7 +32,7 @@ public:
 	int Volume;
 	int Repeat;
 	int Songs;
-	int SongNo;
+	int SongIndex;
 	int Time;
 	int TotalTime;
 	int Bitrate;
@@ -53,6 +53,9 @@ public:
 	bool Stop(void);
 	bool TogglePlay(void);
 	int UpdateDB(bool rescan, const char *path);
+	bool setVolume(int vol);
+	bool Next(void);
+	bool Previous(void);
 };
 
 #endif /* __MPDCLIENT_H__ */
