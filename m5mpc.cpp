@@ -33,7 +33,7 @@ int main(void)
 	catch(...)
 	{
 		printf("Something weird happened, terminating...\n");
-		return -1;
+		return -2;
 	}
 }
 
@@ -42,9 +42,12 @@ int run(void)
 {
 	MPDClient *mpd = new MPDClient("10.96.0.1", 6600);
 	welcome(mpd);
-	mpd->Update();
-	print_info(mpd);
-	
+	bool quit = false;
+	while(!quit)
+	{
+		sleep(1);
+		if(mpd->Update()) print_info(mpd);
+	}	
 	delete mpd;
 	return 0;
 }
@@ -61,6 +64,7 @@ void welcome(MPDClient *mpd)
 void print_info(MPDClient *mpd)
 {
 	printf("----------------------------------------------\n");
+	printf("%s - %s (from %s)\n", mpd->Artist, mpd->SongTitle, mpd->Album);
 	switch(mpd->State)
 	{
 		case MPD_STATE_PLAY:

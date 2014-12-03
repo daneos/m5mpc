@@ -11,13 +11,18 @@ enum {
 	E_TEST,
 	E_CONNECTION_FAILED,
 	E_STATUS_FAILED,
-	E_STATUS_INCORRECT
+	E_STATUS_INCORRECT,
+	E_CONNECTION_ERROR,
+	E_UNRECOVERABLE
 };
 
 static char *strings[] = {
 	"Test exception, used for debugging.",
 	"Could not connect.",
-	"Could not get status."
+	"Could not get status.",
+	"Status incorrect.",
+	"Connection error.",
+	"Unrecoverable error."
 };
 
 class Exception

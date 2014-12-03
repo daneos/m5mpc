@@ -8,6 +8,8 @@
 #define __MPDCLIENT_H__
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include <mpd/client.h>
 #include <mpd/status.h>
@@ -24,6 +26,7 @@ class MPDClient
 protected:
 	struct mpd_connection *c;
 	const unsigned int *version;
+	bool allocated;
 
 public:
 	int Volume;
@@ -37,10 +40,14 @@ public:
 	int Bits;
 	int Channels;
 	int State;
+	char *SongTitle;
+	char *Album;
+	char *Artist;
 	MPDClient(const char *address, const int port);
 	~MPDClient();
-	void Update(void);
+	bool Update(void);
 	char *getVersion(void);
+	void ErrorRecover(void);
 };
 
 #endif /* __MPDCLIENT_H__ */
