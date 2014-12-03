@@ -16,19 +16,30 @@
 #include <mpd/entity.h>
 #include <mpd/search.h>
 #include <mpd/tag.h>
+#include <mpd/playlist.h>
 
 #include "Exception.h"
 
 #define TIMEOUT 30000
+
+typedef struct m5mpc_song
+{
+	char *Title;
+	char *Album;
+	char *Artist;
+	int Index;
+} Song;
 
 class MPDClient
 {
 protected:
 	struct mpd_connection *c;
 	const unsigned int *version;
-	bool allocated;
-
+	bool strings_alloc;
+	bool queue_alloc;
+	
 public:
+	int queue_version; // move this to protected! 
 	int Volume;
 	int Repeat;
 	int Songs;
@@ -43,6 +54,7 @@ public:
 	char *SongTitle;
 	char *Album;
 	char *Artist;
+	Song *CurrentPlaylist;
 	MPDClient(const char *address, const int port);
 	~MPDClient();
 	bool Update(void);
@@ -56,6 +68,7 @@ public:
 	bool setVolume(int vol);
 	bool Next(void);
 	bool Previous(void);
+	bool fetchPlaylist(const char* name);
 };
 
 #endif /* __MPDCLIENT_H__ */

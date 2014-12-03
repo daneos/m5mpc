@@ -18,6 +18,7 @@ int run(void);
 void welcome(MPDClient *mpd);
 void print_info(MPDClient *mpd);
 void handle_input(MPDClient *mpd);
+void print_playlist(MPDClient *mpd);
 
 //-----------------------------------------------------------------------------
 int main(void)
@@ -44,6 +45,8 @@ int run(void)
 	MPDClient *mpd = new MPDClient("10.96.0.1", 6600);
 	welcome(mpd);
 	bool quit = false;
+	mpd->Update();
+	print_playlist(mpd);
 	while(!quit)
 	{
 		if(mpd->Update()) print_info(mpd);
@@ -64,7 +67,7 @@ void welcome(MPDClient *mpd)
 //-----------------------------------------------------------------------------
 void print_info(MPDClient *mpd)
 {
-	printf("----------------------------------------------\n");
+	printf("---------------------------------------------- %d\n", mpd->queue_version);
 	printf("%s - %s (from %s)\n", mpd->Artist, mpd->SongTitle, mpd->Album);
 	switch(mpd->State)
 	{
@@ -118,4 +121,16 @@ void handle_input(MPDClient *mpd)
 			break;
 	}
 	getchar();
+}
+
+//-----------------------------------------------------------------------------
+void print_playlist(MPDClient *mpd)
+{
+	printf("@\t%4.4s %40.40s %40.40s %40.40s\n", "ID", "Title", "Artist", "Album");
+	for(int i = 0; i < mpd->Songs; i++)
+	{
+		printf("%s\t", i == mpd->SongIndex ? ">" : "");
+		printf("%4.4d %-60.60s", i+1, mpd->CurrentPlaylist[i].Title);
+		printf("%-60.60s %-60.60s\n", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album);
+	}
 }
