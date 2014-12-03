@@ -73,24 +73,53 @@ bool MPDClient::Update(void)
 			return false;
 		}
 		// title
-		buffer = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+		if((buffer = mpd_song_get_tag(song, MPD_TAG_TITLE, 0)) == NULL)
+			buffer = mpd_song_get_uri(song);
 		this->SongTitle = (char*)malloc((strlen(buffer)+1)*sizeof(char));
 		snprintf(this->SongTitle, strlen(buffer)+1, "%s", buffer);
-		//printf("%d %d %d %d\n", strlen(buffer), sizeof *buffer, sizeof *this->SongTitle, strlen(this->SongTitle));
-		//strncpy(this->SongTitle, buffer, sizeof this->SongTitle);
-		//this->SongTitle[strlen(buffer)] = '\0';
 		// album
-		buffer = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
-		this->Album = (char*)malloc((strlen(buffer)+1)*sizeof(char));
-		snprintf(this->Album, strlen(buffer)+1, "%s", buffer);
+		if((buffer = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0)) != NULL)
+		{
+			this->Album = (char*)malloc((strlen(buffer)+1)*sizeof(char));
+			snprintf(this->Album, strlen(buffer)+1, "%s", buffer);
+		}
+		else
+		{
+			this->Album = (char*)malloc(sizeof(char));
+			this->Album = '\0';
+		}
 		// artist
-		buffer = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
-		this->Artist = (char*)malloc((strlen(buffer)+1)*sizeof(char));
-		snprintf(this->Artist, strlen(buffer)+1, "%s", buffer);
+		if((buffer = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0)) != NULL)
+		{
+			this->Artist = (char*)malloc((strlen(buffer)+1)*sizeof(char));
+			snprintf(this->Artist, strlen(buffer)+1, "%s", buffer);
+		}
+		else
+		{
+			this->Artist = (char*)malloc(sizeof(char));
+			this->Artist = '\0';
+		}
 		this->allocated = true;
+
+		mpd_song_free(song);
+	}
+	else
+	{
+		this->SongNo = 0;
+		this->Time = 0;
+		this->TotalTime = 0;
+		this->Bitrate = 0;
+		this->SampleRate = 0;
+		this->Bits = 0;
+		this->Channels = 0;
+		this->SongTitle = (char*)malloc(sizeof(char));
+		this->SongTitle = '\0';
+		this->Album = (char*)malloc(sizeof(char));
+		this->Album = '\0';
+		this->Artist = (char*)malloc(sizeof(char));
+		this->Artist = '\0';
 	}
 
-	mpd_song_free(song);
 	mpd_status_free(status);
 	return true;
 }
