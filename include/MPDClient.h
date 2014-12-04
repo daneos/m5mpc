@@ -41,7 +41,6 @@ protected:
 public:
 	int queue_version; // move this to protected! 
 	int Volume;
-	int Repeat;
 	int Songs;
 	int SongIndex;
 	int Time;
@@ -55,6 +54,11 @@ public:
 	char *Album;
 	char *Artist;
 	Song *CurrentPlaylist;
+	bool Repeat;
+	bool Random;
+	bool Single;
+	bool Consume;
+	bool CrossFade;
 	MPDClient(const char *address, const int port);
 	~MPDClient();
 	bool Update(void);
@@ -69,6 +73,11 @@ public:
 	bool Next(void);
 	bool Previous(void);
 	bool fetchPlaylist(const char* name);
+	bool setRepeat(bool v);
+	bool setRandom(bool v);
+	bool setSingle(bool v);
+	bool setConsume(bool v);
+	bool setCrossFade(bool v);
 };
 
 #endif /* __MPDCLIENT_H__ */

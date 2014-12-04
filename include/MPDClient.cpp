@@ -50,6 +50,11 @@ bool MPDClient::Update(void)
 	this->Repeat = mpd_status_get_repeat(status);
 	this->Songs = mpd_status_get_queue_length(status);
 	this->State = mpd_status_get_state(status);
+	this->Repeat = mpd_status_get_repeat(status);
+	this->Random = mpd_status_get_random(status);
+	this->Single = mpd_status_get_single(status);
+	this->Consume = mpd_status_get_consume(status);
+	this->CrossFade = mpd_status_get_crossfade(status);
 	if(mpd_status_get_error(status) != NULL)
 	{
 		this->ErrorRecover();
@@ -259,4 +264,34 @@ bool MPDClient::fetchPlaylist(const char *name)
 	}
 
 	return mpd_response_finish(this->c);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setRepeat(bool v)
+{
+	return mpd_run_repeat(this->c, v);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setRandom(bool v)
+{
+	return mpd_run_random(this->c, v);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setSingle(bool v)
+{
+	return mpd_run_single(this->c, v);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setConsume(bool v)
+{
+	return mpd_run_consume(this->c, v);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::setCrossFade(bool v)
+{
+	return mpd_run_crossfade(this->c, v);
 }

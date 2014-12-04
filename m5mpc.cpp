@@ -80,7 +80,8 @@ void print_info(MPDClient *mpd)
 		default:
 			printf("Stopped");
 	}
-	printf(" - %d/%d   Vol: %d%%\n", mpd->SongIndex+1, mpd->Songs, mpd->Volume);
+	printf(" - %d/%d   Vol: %d%%\t\t", mpd->SongIndex+1, mpd->Songs, mpd->Volume);
+	printf("%s | %s | %s | %s | %s \n",mpd->Repeat?"repeat":"",mpd->Random?"random":"",mpd->Single?"single":"",mpd->Consume?"consume":"",mpd->CrossFade?"crossfade":"");
 	printf("%0.2d:%0.2d/%0.2d:%0.2d  @  %dkb/s\n", mpd->Time/60, mpd->Time%60, mpd->TotalTime/60, mpd->TotalTime%60, mpd->Bitrate);
 	printf("%dHz   %dbit   %dch\n", mpd->SampleRate, mpd->Bits, mpd->Channels);
 }
@@ -116,6 +117,21 @@ void handle_input(MPDClient *mpd)
 			break;
 		case '<':
 			mpd->Previous();
+			break;
+		case '1':
+			mpd->setRepeat(!mpd->Repeat);
+			break;
+		case '2':
+			mpd->setRandom(!mpd->Random);
+			break;
+		case '3':
+			mpd->setSingle(!mpd->Single);
+			break;
+		case '4':
+			mpd->setConsume(!mpd->Consume);
+			break;
+		case '5':
+			mpd->setCrossFade(!mpd->CrossFade);
 			break;
 		default:
 			break;
