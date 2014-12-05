@@ -78,6 +78,7 @@ public:
 	bool setSingle(bool v);
 	bool setConsume(bool v);
 	bool setCrossFade(bool v);
+	bool playSongNo(int index);
 };
 
 #endif /* __MPDCLIENT_H__ */

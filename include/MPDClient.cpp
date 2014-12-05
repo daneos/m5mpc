@@ -295,3 +295,9 @@ bool MPDClient::setCrossFade(bool v)
 {
 	return mpd_run_crossfade(this->c, v);
 }
+
+//-----------------------------------------------------------------------------
+bool MPDClient::playSongNo(int index)
+{
+	return mpd_run_play_pos(this->c, index);
+}

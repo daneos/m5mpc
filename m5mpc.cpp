@@ -133,6 +133,9 @@ void handle_input(MPDClient *mpd)
 		case '5':
 			mpd->setCrossFade(!mpd->CrossFade);
 			break;
+		case '~':
+			mpd->playSongNo(100);
+			break;
 		default:
 			break;
 	}
