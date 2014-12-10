@@ -12,20 +12,23 @@
 #include "include/version.h"
 #include "include/MPDClient.h"
 #include "include/Exception.h"
+#include "include/M5GUI.h"
 
 //-----------------------------------------------------------------------------
-int run(void);
-void welcome(MPDClient *mpd);
+int run(int argc, char **argv);
+/*void welcome(MPDClient *mpd);
 void print_info(MPDClient *mpd);
 void handle_input(MPDClient *mpd);
-void print_playlist(MPDClient *mpd);
+void print_playlist(MPDClient *mpd);*/
+MPDClient *global;
+void button_test(GtkButton *button, gpointer i);
 
 //-----------------------------------------------------------------------------
-int main(void)
+int main(int argc, char **argv)
 {
 	try
 	{
-		return run();
+		return run(argc, argv);
 	}
 	catch(Exception& e)
 	{
@@ -40,22 +43,44 @@ int main(void)
 }
 
 //-----------------------------------------------------------------------------
-int run(void)
+int run(int argc, char **argv)
 {
 	MPDClient *mpd = new MPDClient("10.96.0.1", 6600);
-	welcome(mpd);
-	bool quit = false;
+	global = mpd;
+	M5GUI *gui = new M5GUI("m5mpc", &argc, &argv);
+
+	int vbox = gui->addWidget(GTK_WIDGET(gtk_vbox_new(FALSE, 0)));
+	int pan = gui->addWidget(GTK_WIDGET(hildon_pannable_area_new()));
+
 	mpd->Update();
-	print_playlist(mpd);
-	while(!quit)
+
+	for(int i = 0; i < mpd->Songs; i++)
 	{
-		if(mpd->Update()) print_info(mpd);
-		handle_input(mpd);
-	}	
+		char *title0 = g_strdup_printf("%s", mpd->CurrentPlaylist[i].Title);
+		char *subtitle0 = g_strdup_printf("%s - %s", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album);
+		/* stop buttons being a mile wide */
+		char *title = g_strndup(title0, 60);
+		char *subtitle = g_strndup(subtitle0, 60);
+		GtkWidget *button = hildon_button_new_with_text((HildonSizeType)(HILDON_SIZE_AUTO_WIDTH | HILDON_SIZE_FINGER_HEIGHT), HILDON_BUTTON_ARRANGEMENT_VERTICAL, title, subtitle);
+		g_signal_connect(button, "clicked", G_CALLBACK(button_test), GINT_TO_POINTER(i));
+		gtk_box_pack_end(GTK_BOX(gui->getWidget(vbox)), button, FALSE, FALSE, 0);
+		g_free (title0);
+		g_free (subtitle0);
+		g_free (title);
+		g_free (subtitle);
+	}
+
+	hildon_pannable_area_add_with_viewport(HILDON_PANNABLE_AREA(gui->getWidget(pan)), gui->getWidget(vbox));
+	gtk_container_add(GTK_CONTAINER(gui->getMainWindow()), gui->getWidget(pan));
+	gtk_widget_show_all(GTK_WIDGET(gui->getMainWindow()));
+
+	gtk_main();
+	delete gui;
 	delete mpd;
 	return 0;
 }
 
+/*
 //-----------------------------------------------------------------------------
 void welcome(MPDClient *mpd)
 {
@@ -152,4 +177,10 @@ void print_playlist(MPDClient *mpd)
 		printf("%4.4d %-60.60s", i+1, mpd->CurrentPlaylist[i].Title);
 		printf("%-60.60s %-60.60s\n", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album);
 	}
+}
+*/
+
+void button_test(GtkButton *button, gpointer i)
+{
+	printf("callback: %d, %s\n", GPOINTER_TO_INT(i), global->playSongNo(GPOINTER_TO_INT(i))?"OK":"ERROR");
 }
