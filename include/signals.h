@@ -11,19 +11,30 @@
 #include "MPDClient.h"
 
 extern MPDClient *mpd;
+extern GtkBuilder *builder;
 
 extern "C"
 {
 	// buttons
-	void onClick_PrevButton(void);
-	void onClick_NextButton(void);
-	void onClick_PlayButton(void);
-	void onClick_StopButton(void);
-	void onClick_VolUpButton(void);
-	void onClick_VolDnButton(void);
+	void onClick_PrevButton(GtkObject *Sender);
+	void onClick_NextButton(GtkObject *Sender);
+	void onClick_PlayButton(GtkObject *Sender);
+	void onClick_StopButton(GtkObject *Sender);
+	void onClick_VolUpButton(GtkObject *Sender);
+	void onClick_VolDnButton(GtkObject *Sender);
 
-	//timer
-	void onTimer(GtkBuilder *builder);
+	// status toggles
+	void onToggle_Repeat(GtkObject *Sender);
+	void onToggle_Random(GtkObject *Sender);
+	void onToggle_Single(GtkObject *Sender);
+	void onToggle_Consume(GtkObject *Sender);
+	void onToggle_CrossFade(GtkObject *Sender);
+
+	// list item
+	void onClick_ListItem(GtkObject *Sender, gpointer ListIndex);
+	
+	// timer
+	bool onTimer(void);
 }
 
 #endif /* __SIGNALS_H__ */
