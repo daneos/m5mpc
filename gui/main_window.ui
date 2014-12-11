@@ -101,6 +101,7 @@
                   <object class="GtkProgressBar" id="ProgressBar">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="show_text">True</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -165,46 +166,56 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="VolDnButton">
-                    <property name="label" translatable="yes">-</property>
+                  <object class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
-                    <signal name="clicked" handler="onClick_VolDnButton" swapped="no"/>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="VolUpButton">
+                        <property name="label" translatable="yes">vol +</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
+                        <signal name="clicked" handler="onClick_VolUpButton" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkProgressBar" id="VolBar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="show_text">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="VolDnButton">
+                        <property name="label" translatable="yes">vol -</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
+                        <signal name="clicked" handler="onClick_VolDnButton" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkHScrollbar" id="VolBar">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="show_fill_level">True</property>
-                    <property name="fill_level">100</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="VolUpButton">
-                    <property name="label" translatable="yes">+</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
-                    <signal name="clicked" handler="onClick_VolUpButton" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

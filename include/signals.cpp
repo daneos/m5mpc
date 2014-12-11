@@ -65,4 +65,11 @@ void onTimer(GtkBuilder *builder)
 	// progress bar
 	w = GTK_WIDGET(gtk_builder_get_object(builder, "ProgressBar"));
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(w), (double)mpd->Time/(double)mpd->TotalTime);
+	char *progress = g_strdup_printf("%02d:%02d / %02d:%02d", mpd->Time/60, mpd->Time%60, mpd->TotalTime/60, mpd->TotalTime%60);
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(w), progress);
+	g_free(progress);
+
+	// volume bar
+	w = GTK_WIDGET(gtk_builder_get_object(builder, "VolBar"));
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(w), (double)mpd->Volume/100.0);
 }
