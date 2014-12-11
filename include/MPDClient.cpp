@@ -148,7 +148,7 @@ char *MPDClient::getVersion(void)
 //-----------------------------------------------------------------------------
 void MPDClient::ErrorRecover(void)
 {
-	if(!mpd_connection_clear_error(this->c)) throw Exception(E_UNRECOVERABLE);
+	if(!mpd_connection_clear_error(this->c)) throw Exception(E_MPD_UNRECOVERABLE);
 }
 
 //-----------------------------------------------------------------------------
@@ -170,7 +170,7 @@ bool MPDClient::Stop(void)
 }
 
 //-----------------------------------------------------------------------------
-bool MPDClient::TogglePlay(void)
+bool MPDClient::togglePlay(void)
 {
 	mpd_command_list_begin(this->c, true);
 	mpd_send_toggle_pause(this->c);
@@ -179,7 +179,7 @@ bool MPDClient::TogglePlay(void)
 }
 
 //-----------------------------------------------------------------------------
-int MPDClient::UpdateDB(bool rescan, const char *path)
+int MPDClient::updateDB(bool rescan, const char *path)
 {
 	return rescan ? mpd_run_rescan(this->c, path) : mpd_run_update(this->c, path);
 }

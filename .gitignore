@@ -33,5 +33,9 @@ sublime-project/*
 # Core dumps :)
 core
 *.core
+
 # Project executable
 m5mpc
+
+# Backup files
+*~

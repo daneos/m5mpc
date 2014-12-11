@@ -13,7 +13,8 @@ enum {
 	E_STATUS_FAILED,
 	E_STATUS_INCORRECT,
 	E_CONNECTION_ERROR,
-	E_UNRECOVERABLE
+	E_MPD_UNRECOVERABLE,
+	E_GUI
 };
 
 static char *strings[] = {
@@ -22,7 +23,8 @@ static char *strings[] = {
 	"Could not get status.",
 	"Status incorrect.",
 	"Connection error.",
-	"Unrecoverable error."
+	"MPD unrecoverable error.",
+	"Gtk+ Error"
 };
 
 class Exception

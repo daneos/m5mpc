@@ -67,8 +67,8 @@ public:
 	bool Play(void);
 	bool Pause(void);
 	bool Stop(void);
-	bool TogglePlay(void);
-	int UpdateDB(bool rescan, const char *path);
+	bool togglePlay(void);
+	int updateDB(bool rescan, const char *path);
 	bool setVolume(int vol);
 	bool Next(void);
 	bool Previous(void);
