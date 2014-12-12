@@ -370,6 +370,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="use_action_appearance">False</property>
+                        <signal name="pressed" handler="onPressed_VolUpButton" swapped="no"/>
+                        <signal name="released" handler="onReleased_VolUpButton" swapped="no"/>
                         <signal name="clicked" handler="onClick_VolUpButton" swapped="no"/>
                       </object>
                       <packing>
@@ -397,6 +399,8 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="use_action_appearance">False</property>
+                        <signal name="pressed" handler="onPressed_VolDnButton" swapped="no"/>
+                        <signal name="released" handler="onReleased_VolDnButton" swapped="no"/>
                         <signal name="clicked" handler="onClick_VolDnButton" swapped="no"/>
                       </object>
                       <packing>

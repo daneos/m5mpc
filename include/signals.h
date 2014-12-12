@@ -23,6 +23,11 @@ extern "C"
 	void onClick_VolUpButton(GtkObject *Sender);
 	void onClick_VolDnButton(GtkObject *Sender);
 
+	void onPressed_VolUpButton(GtkObject *Sender);
+	void onReleased_VolUpButton(GtkObject *Sender);
+	void onPressed_VolDnButton(GtkObject *Sender);
+	void onReleased_VolDnButton(GtkObject *Sender);
+
 	// status toggles
 	void onToggle_Repeat(GtkObject *Sender);
 	void onToggle_Random(GtkObject *Sender);
@@ -33,8 +38,10 @@ extern "C"
 	// list item
 	void onClick_ListItem(GtkObject *Sender, gpointer ListIndex);
 	
-	// timer
+	// timers
 	bool onTimer(void);
+	bool onTimer_VolUp(void);
+	bool onTimer_VolDn(void);
 }
 
 #endif /* __SIGNALS_H__ */

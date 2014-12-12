@@ -37,9 +37,9 @@ protected:
 	const unsigned int *version;
 	bool strings_alloc;
 	bool queue_alloc;
+	int queue_version;
 	
 public:
-	int queue_version; // move this to protected! 
 	int Volume;
 	int Songs;
 	int SongIndex;

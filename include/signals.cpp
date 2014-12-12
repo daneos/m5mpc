@@ -5,6 +5,7 @@
  */
 
 #include "signals.h"
+int timer = 0;
 
 //-----------------------------------------------------------------------------
 void onClick_PrevButton(GtkObject *Sender)
@@ -37,15 +38,37 @@ void onClick_StopButton(GtkObject *Sender)
 //-----------------------------------------------------------------------------
 void onClick_VolUpButton(GtkObject *Sender)
 {
-	mpd->setVolume(mpd->Volume+1);
-	onTimer();
+	onTimer_VolUp();
 }
 
 //-----------------------------------------------------------------------------
 void onClick_VolDnButton(GtkObject *Sender)
 {
-	mpd->setVolume(mpd->Volume-1);
-	onTimer();
+	onTimer_VolDn();
+}
+
+//-----------------------------------------------------------------------------
+void onPressed_VolUpButton(GtkObject *Sender)
+{
+	timer = g_timeout_add(150, (GSourceFunc)onTimer_VolUp, NULL);
+}
+
+//-----------------------------------------------------------------------------
+void onReleased_VolUpButton(GtkObject *Sender)
+{
+	g_source_remove(timer);
+}
+
+//-----------------------------------------------------------------------------
+void onPressed_VolDnButton(GtkObject *Sender)
+{
+	timer = g_timeout_add(150, (GSourceFunc)onTimer_VolDn, NULL);
+}
+
+//-----------------------------------------------------------------------------
+void onReleased_VolDnButton(GtkObject *Sender)
+{
+	g_source_remove(timer);
 }
 
 //-----------------------------------------------------------------------------
@@ -152,5 +175,21 @@ bool onTimer(void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "CrossFadeToggle")), mpd->CrossFade);
 
 	// continue timer
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+bool onTimer_VolUp(void)
+{
+	mpd->setVolume(mpd->Volume+1);
+	onTimer();
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+bool onTimer_VolDn(void)
+{
+	mpd->setVolume(mpd->Volume-1);
+	onTimer();
 	return true;
 }
