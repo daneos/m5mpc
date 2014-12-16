@@ -66,6 +66,9 @@ int run(int argc, char **argv)
 	g_signal_connect(MainWindow, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	gtk_builder_connect_signals(builder, NULL);
 
+	// setup portrait availablity (for non-forced portrait mode)
+	hildon_gtk_window_set_portrait_flags(GTK_WINDOW(MainWindow), HILDON_PORTRAIT_MODE_SUPPORT);
+
 	// setup timer
 	g_timeout_add(1000, (GSourceFunc)onTimer, NULL);
 	onTimer();
@@ -77,7 +80,7 @@ int run(int argc, char **argv)
 	for(int i = 0; i < mpd->Songs; i++)
 	{
 		GtkWidget *button = hildon_button_new_with_text(
-			(HildonSizeType)(HILDON_SIZE_AUTO_WIDTH | HILDON_SIZE_FINGER_HEIGHT),
+			(HildonSizeType)(HILDON_SIZE_FULLSCREEN_WIDTH | HILDON_SIZE_FINGER_HEIGHT),
 			HILDON_BUTTON_ARRANGEMENT_VERTICAL,
 			g_strdup_printf("%s", mpd->CurrentPlaylist[i].Title),
 			g_strdup_printf("%s - %s", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album)
