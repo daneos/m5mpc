@@ -16,6 +16,7 @@ MPDClient::MPDClient(const char *address, const int port)
 		this->ErrorRecover();
 	this->version = mpd_connection_get_server_version(this->c);
 	this->queue_version = -1;
+	this->playlist_changed = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -130,7 +131,10 @@ bool MPDClient::Update(void)
 	int qv = mpd_status_get_queue_version(status);
 	if(qv != this->queue_version)
 		if(this->fetchPlaylist(NULL))
+		{
 			this->queue_version = qv;
+			this->playlist_changed = true;
+		}
 
 	mpd_status_free(status);
 
@@ -300,4 +304,12 @@ bool MPDClient::setCrossFade(bool v)
 bool MPDClient::playSongNo(int index)
 {
 	return mpd_run_play_pos(this->c, index);
+}
+
+//-----------------------------------------------------------------------------
+bool MPDClient::playlistChanged(void)
+{
+	bool r = this->playlist_changed;
+	this->playlist_changed = false;
+	return r;
 }

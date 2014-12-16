@@ -8,6 +8,7 @@
 #define __SIGNALS_H__
 
 #include <gtk/gtk.h>
+#include <hildon/hildon.h>
 #include "MPDClient.h"
 
 extern MPDClient *mpd;

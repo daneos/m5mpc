@@ -38,6 +38,7 @@ protected:
 	bool strings_alloc;
 	bool queue_alloc;
 	int queue_version;
+	bool playlist_changed;
 	
 public:
 	int Volume;
@@ -79,6 +80,7 @@ public:
 	bool setConsume(bool v);
 	bool setCrossFade(bool v);
 	bool playSongNo(int index);
+	bool playlistChanged(void);
 };
 
 #endif /* __MPDCLIENT_H__ */
