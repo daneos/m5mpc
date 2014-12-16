@@ -258,6 +258,7 @@
           <object class="GtkVBox" id="ListVBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="resize_mode">immediate</property>
             <child>
               <placeholder/>
             </child>

@@ -117,61 +117,76 @@ void onClick_ListItem(GtkObject *Sender, gpointer ListIndex)
 bool onTimer(void)
 {
 	mpd->Update();
-	GtkWidget *w;
-
+	
 	// labels
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "TitleLabel"));
-	gtk_label_set_text(GTK_LABEL(w), mpd->SongTitle);
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "ArtistLabel"));
-	gtk_label_set_text(GTK_LABEL(w), mpd->Artist);
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "AlbumLabel"));
-	gtk_label_set_text(GTK_LABEL(w), mpd->Album);
+	gtk_label_set_text(GTK_LABEL(gtk_builder_get_object(builder, "TitleLabel")), mpd->SongTitle);
+	gtk_label_set_text(GTK_LABEL(gtk_builder_get_object(builder, "ArtistLabel")), mpd->Artist);
+	gtk_label_set_text(GTK_LABEL(gtk_builder_get_object(builder, "AlbumLabel")), mpd->Album);
 
 	// progress bar
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "ProgressBar"));
+	GtkWidget *bar;
+	bar = GTK_WIDGET(gtk_builder_get_object(builder, "ProgressBar"));
+	double percentage;
 	if(mpd->TotalTime != 0)
 	{
-		double percentage = (double)mpd->Time/(double)mpd->TotalTime;
+		percentage = (double)mpd->Time/(double)mpd->TotalTime;
 		if(percentage < 0 || percentage > 1) percentage = 0;
 	}
 	else percentage = 0;
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(w), percentage);
-	char *progress = g_strdup_printf("%d:%02d / %d:%02d", mpd->Time/60, mpd->Time%60, mpd->TotalTime/60, mpd->TotalTime%60);
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(w), progress);
-	g_free(progress);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(bar), percentage);
+	gtk_progress_bar_set_text(
+		GTK_PROGRESS_BAR(bar),
+		g_strdup_printf(
+			"%d:%02d / %d:%02d",
+			mpd->Time/60,
+			mpd->Time%60,
+			mpd->TotalTime/60,
+			mpd->TotalTime%60
+		)
+	);
 
 	// volume bar
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "VolBar"));
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(w), (double)mpd->Volume/100.0);
+	gtk_progress_bar_set_fraction(
+		GTK_PROGRESS_BAR(gtk_builder_get_object(builder, "VolBar")),
+		(double)mpd->Volume/100.0
+	);
 
 	// status labels
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "StateLabel"));
-	gtk_label_set_text(GTK_LABEL(w), ((mpd->State==MPD_STATE_PLAY)?"Playing":((mpd->State==MPD_STATE_PAUSE)?"Paused":"Stopped")));
+	// state
+	gtk_label_set_text(
+		GTK_LABEL(gtk_builder_get_object(builder, "StateLabel")),
+		((mpd->State==MPD_STATE_PLAY)?"Playing":((mpd->State==MPD_STATE_PAUSE)?"Paused":"Stopped"))
+	);
 	
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "IndexLabel"));
-	char *index = g_strdup_printf("%d / %d", mpd->SongIndex+1, mpd->Songs);
-	gtk_label_set_text(GTK_LABEL(w), index);
-	g_free(index);
+	// song number
+	gtk_label_set_text(
+		GTK_LABEL(gtk_builder_get_object(builder, "IndexLabel")),
+		g_strdup_printf("%d / %d", mpd->SongIndex+1, mpd->Songs)
+	);
 
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "BitrateLabel"));
-	char *bitrate = g_strdup_printf("%dkb/s", mpd->Bitrate);
-	gtk_label_set_text(GTK_LABEL(w), bitrate);
-	g_free(bitrate);
+	// bitrate
+	gtk_label_set_text(
+		GTK_LABEL(gtk_builder_get_object(builder, "BitrateLabel")),
+		g_strdup_printf("%dkb/s", mpd->Bitrate)
+	);
 
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "SampleRateLabel"));
-	char *samplerate = g_strdup_printf("%dHz", mpd->SampleRate);
-	gtk_label_set_text(GTK_LABEL(w), samplerate);
-	g_free(samplerate);
+	// sample rate
+	gtk_label_set_text(
+		GTK_LABEL(gtk_builder_get_object(builder, "SampleRateLabel")),
+		g_strdup_printf("%dHz", mpd->SampleRate)
+	);
 
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "BitsLabel"));
-	char *bits = g_strdup_printf("%dbit", mpd->Bits);
-	gtk_label_set_text(GTK_LABEL(w), bits);
-	g_free(bits);
+	// bits
+	gtk_label_set_text(
+		GTK_LABEL(gtk_builder_get_object(builder, "BitsLabel")),
+		g_strdup_printf("%dbit", mpd->Bits)
+	);
 
-	w = GTK_WIDGET(gtk_builder_get_object(builder, "ChannelsLabel"));
-	char *channels = g_strdup_printf("%dch", mpd->Channels);
-	gtk_label_set_text(GTK_LABEL(w), channels);
-	g_free(channels);
+	// channels
+	gtk_label_set_text(GTK_LABEL(
+		gtk_builder_get_object(builder, "ChannelsLabel")),
+		g_strdup_printf("%dch", mpd->Channels)
+	);
 
 	// status toggles
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "RepeatToggle")), mpd->Repeat);
