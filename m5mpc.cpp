@@ -76,28 +76,22 @@ int run(int argc, char **argv)
 	GtkWidget *parent_vbox = GTK_WIDGET(gtk_builder_get_object(builder, "ListVBox"));
 	for(int i = 0; i < mpd->Songs; i++)
 	{
-		char *title0 = g_strdup_printf("%s", mpd->CurrentPlaylist[i].Title);
-		char *subtitle0 = g_strdup_printf("%s - %s", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album);
-		/* stop buttons being a mile wide */
-		char *title = g_strndup(title0, 60);
-		char *subtitle = g_strndup(subtitle0, 60);
-		GtkWidget *button = hildon_button_new_with_text((HildonSizeType)(HILDON_SIZE_AUTO_WIDTH | HILDON_SIZE_FINGER_HEIGHT), HILDON_BUTTON_ARRANGEMENT_VERTICAL, title, subtitle);
+		GtkWidget *button = hildon_button_new_with_text(
+			(HildonSizeType)(HILDON_SIZE_AUTO_WIDTH | HILDON_SIZE_FINGER_HEIGHT),
+			HILDON_BUTTON_ARRANGEMENT_VERTICAL,
+			g_strdup_printf("%s", mpd->CurrentPlaylist[i].Title),
+			g_strdup_printf("%s - %s", mpd->CurrentPlaylist[i].Artist, mpd->CurrentPlaylist[i].Album)
+		);
+		hildon_button_set_title_alignment(HILDON_BUTTON(button), 0.5, 0.5);
+		hildon_button_set_value_alignment(HILDON_BUTTON(button), 0.5, 0.5);
 		g_signal_connect(button, "clicked", G_CALLBACK(onClick_ListItem), GINT_TO_POINTER(i));
-		gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
-		g_free(title0);
-		g_free(subtitle0);
-		g_free(title);
-		g_free(subtitle);
+		gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 	}
-
 	hildon_pannable_area_add_with_viewport(HILDON_PANNABLE_AREA(pan), vbox);
-	gtk_box_pack_end(GTK_BOX(parent_vbox), pan, FALSE, FALSE, 0);
-	//gtk_container_add(GTK_CONTAINER(parent_vbox), pan);
-	//gtk_container_add(GTK_CONTAINER(gui->getMainWindow()), gui->getWidget(vbox2));
-	//gtk_widget_show_all(GTK_WIDGET(gtk_builder_get_object(builder, "MainWindow")));
+	gtk_box_pack_start(GTK_BOX(parent_vbox), pan, TRUE, TRUE, 0);
 	
 	// show window and start app main loop
-	gtk_widget_show(MainWindow);
+	gtk_widget_show_all(MainWindow);
 	gtk_main();
 
 	// clear everything

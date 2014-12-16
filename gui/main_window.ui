@@ -11,7 +11,6 @@
         <property name="can_focus">False</property>
         <child>
           <object class="GtkVBox" id="TitleVBox">
-            <property name="height_request">115</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -60,8 +59,9 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">2</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -360,19 +360,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="VolumeVBox">
+                  <object class="GtkHBox" id="VolumeHBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkButton" id="VolUpButton">
-                        <property name="label" translatable="yes">⤊</property>
+                      <object class="GtkButton" id="VolDnButton">
+                        <property name="label" translatable="yes">⤋</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="use_action_appearance">False</property>
-                        <signal name="pressed" handler="onPressed_VolUpButton" swapped="no"/>
-                        <signal name="released" handler="onReleased_VolUpButton" swapped="no"/>
-                        <signal name="clicked" handler="onClick_VolUpButton" swapped="no"/>
+                        <signal name="pressed" handler="onPressed_VolDnButton" swapped="no"/>
+                        <signal name="released" handler="onReleased_VolDnButton" swapped="no"/>
+                        <signal name="clicked" handler="onClick_VolDnButton" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -393,15 +393,15 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="VolDnButton">
-                        <property name="label" translatable="yes">⤋</property>
+                      <object class="GtkButton" id="VolUpButton">
+                        <property name="label" translatable="yes">⤊</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="use_action_appearance">False</property>
-                        <signal name="pressed" handler="onPressed_VolDnButton" swapped="no"/>
-                        <signal name="released" handler="onReleased_VolDnButton" swapped="no"/>
-                        <signal name="clicked" handler="onClick_VolDnButton" swapped="no"/>
+                        <signal name="pressed" handler="onPressed_VolUpButton" swapped="no"/>
+                        <signal name="released" handler="onReleased_VolUpButton" swapped="no"/>
+                        <signal name="clicked" handler="onClick_VolUpButton" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -418,14 +418,14 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
